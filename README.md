@@ -22,13 +22,13 @@
 ## Install
 
 ```bash
-npm install -g git-ai
+npm install -g @malikasadjaved/git-ai
 ```
 
 Or try it instantly:
 
 ```bash
-npx git-ai@latest setup
+npx @malikasadjaved/git-ai@latest setup
 ```
 
 ## 30-Second Quick Start
