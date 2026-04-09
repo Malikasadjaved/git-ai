@@ -1,6 +1,6 @@
 {
   "name": "@malikasadjaved/git-ai",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "AI that lives inside your Git workflow — commits, PRs, changelogs, code review",
   "keywords": [
     "git",
