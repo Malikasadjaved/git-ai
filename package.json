@@ -1,5 +1,5 @@
 {
-  "name": "git-ai",
+  "name": "@malikasadjaved/git-ai",
   "version": "1.0.0",
   "description": "AI that lives inside your Git workflow — commits, PRs, changelogs, code review",
   "keywords": [
@@ -16,12 +16,12 @@
   "homepage": "https://github.com/Malikasadjaved/git-ai",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Malikasadjaved/git-ai"
+    "url": "git+https://github.com/Malikasadjaved/git-ai.git"
   },
   "license": "MIT",
   "type": "module",
   "bin": {
-    "git-ai": "./dist/index.js"
+    "git-ai": "dist/index.js"
   },
   "main": "./dist/index.js",
   "files": [
