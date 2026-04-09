@@ -1,0 +1,13 @@
+#!/bin/sh
+# git-ai — AI commit message generator hook
+# Installed by: git-ai hook install
+
+COMMIT_MSG_FILE="$1"
+COMMIT_SOURCE="$2"
+
+# Only generate if no message was provided (not -m, not merge, not squash)
+if [ -z "$COMMIT_SOURCE" ]; then
+  if command -v git-ai > /dev/null 2>&1; then
+    git-ai commit --hook-mode "$COMMIT_MSG_FILE"
+  fi
+fi
