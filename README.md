@@ -1,6 +1,6 @@
 <p align="center">
-  <img src="https://img.shields.io/npm/v/git-ai?style=flat-square&color=blue" alt="npm version" />
-  <img src="https://img.shields.io/npm/dm/git-ai?style=flat-square&color=green" alt="downloads" />
+  <img src="https://img.shields.io/npm/v/@malikasadjaved/git-ai?style=flat-square&color=blue" alt="npm version" />
+  <img src="https://img.shields.io/npm/dm/@malikasadjaved/git-ai?style=flat-square&color=green" alt="downloads" />
   <img src="https://img.shields.io/badge/license-MIT-yellow?style=flat-square" alt="license" />
   <img src="https://img.shields.io/badge/node-%3E%3D18-brightgreen?style=flat-square" alt="node version" />
   <img src="https://img.shields.io/badge/providers-Claude%20%7C%20GPT%20%7C%20Gemini%20%7C%20Ollama-purple?style=flat-square" alt="providers" />
