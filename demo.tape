@@ -3,6 +3,7 @@
 # Run: vhs demo.tape
 
 Output demo.gif
+Set Shell powershell
 Set FontSize 16
 Set Width 900
 Set Height 550
