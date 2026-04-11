@@ -10,7 +10,7 @@
 <p align="center"><strong>AI that lives inside your Git workflow.<br/>Auto-commits, PRs, changelogs, code review — zero friction.</strong></p>
 
 <p align="center">
-  <img src="demo.gif" alt="git-ai demo" width="680" />
+  <img src="https://raw.githubusercontent.com/Malikasadjaved/git-ai/main/demo.gif" alt="git-ai demo" width="680" />
 </p>
 
 ---
