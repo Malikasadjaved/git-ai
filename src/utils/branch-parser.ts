@@ -14,9 +14,9 @@ export type BranchType = 'feature' | 'hotfix' | 'release' | 'chore' | 'main' | '
 
 export function getBranchType(branchName: string): BranchType {
   if (branchName === 'main' || branchName === 'master') return 'main';
-  if (/^feature[/\-]/.test(branchName) || /^feat[/\-]/.test(branchName)) return 'feature';
-  if (/^(hot)?fix[/\-]/.test(branchName) || /^bugfix[/\-]/.test(branchName)) return 'hotfix';
-  if (/^release[/\-]/.test(branchName)) return 'release';
-  if (/^chore[/\-]/.test(branchName)) return 'chore';
+  if (/^feature[/-]/.test(branchName) || /^feat[/-]/.test(branchName)) return 'feature';
+  if (/^(hot)?fix[/-]/.test(branchName) || /^bugfix[/-]/.test(branchName)) return 'hotfix';
+  if (/^release[/-]/.test(branchName)) return 'release';
+  if (/^chore[/-]/.test(branchName)) return 'chore';
   return 'other';
 }
