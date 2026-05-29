@@ -5,7 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-05-29
+
+### Added
+
+- `git-ai review --json` — structured JSON output (`findings[]`, `summary{}`) for CI/automation consumers
+- `git-ai review --fail-on <critical|warning|suggestion>` — exits with code 1 when findings breach threshold; enables CI gating
+- `git-ai review --gh-comment` — posts review as a formatted GitHub PR comment via `gh` CLI
+- `git-ai ci` — new command that generates a ready-to-use `.github/workflows/git-ai-review.yml`
+- `git-ai ci --write` — writes the workflow file directly into the repo
+- `git-ai ci --provider` and `--fail-on` options to customise the generated workflow
+- Review summary header showing finding counts at a glance (🔴 critical · 🟡 warnings · 🟢 suggestions)
+- `src/utils/review-parser.ts` — internal utility to parse AI review text into typed `ReviewFinding[]`
+- `git-ai review --no-dedup` — opt out of the new duplicate-finding suppression
+- `git-ai findings` (`git-ai f`) — list, acknowledge, and clear persisted code-review findings
+- SHA-256 content fingerprinting — same finding across branches/commits is automatically deduplicated
+- `.git-ai/findings.json` — per-repo persistence so review volume stays manageable even with many agent runs in flight
+
 ## [1.1.1] - 2025-01-03
+
 
 ### Fixed
 

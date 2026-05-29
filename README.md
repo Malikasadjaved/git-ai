@@ -122,16 +122,34 @@ Generates a structured PR with Summary, Changes, Testing checklist, and auto-lin
 git-ai review              # Review staged changes
 git-ai review --full       # Review entire branch diff vs main
 git-ai review -b develop   # Review against specific branch
+git-ai review --json       # Structured JSON output (CI-friendly)
+git-ai review --fail-on critical    # Exit 1 if any CRITICAL finding
+git-ai review --fail-on warning     # Exit 1 if WARNING or CRITICAL
+git-ai review --gh-comment          # Post findings as GitHub PR comment
 ```
 
-Returns findings color-coded by severity:
+Returns findings color-coded by severity (with summary count header):
 
 ```
   Code Review
 
-  CRITICAL  SQL injection risk in user input at src/api/users.ts:42
-  WARNING   Missing error handling in async function fetchData()
-  SUGGESTION  Consider memoizing this expensive computation
+  🔴 1 critical  🟡 2 warnings  🟢 3 suggestions
+
+  🔴 [CRITICAL]  SQL injection risk in user input at src/api/users.ts:42
+  🟡 [WARNING]   Missing error handling in async function fetchData()
+  🟢 [SUGGESTION]  Consider memoizing this expensive computation
+```
+
+With `--json`:
+```json
+{
+  "findings": [
+    { "severity": "CRITICAL", "description": "SQL injection risk", "location": "src/api/users.ts:42" },
+    { "severity": "WARNING",  "description": "Missing error handling" }
+  ],
+  "summary": { "critical": 1, "warning": 1, "suggestion": 0, "total": 2 },
+  "clean": false
+}
 ```
 
 ---
@@ -146,6 +164,41 @@ git-ai changelog --output CHANGES.md
 ```
 
 Produces [keepachangelog.com](https://keepachangelog.com) format, grouped by: Breaking Changes, Added, Fixed, Changed, Performance, Documentation.
+
+---
+
+### `git-ai ci` — Generate GitHub Actions workflow
+
+```bash
+git-ai ci                          # Print the workflow YAML to stdout
+git-ai ci --write                  # Write to .github/workflows/git-ai-review.yml
+git-ai ci --provider gemini        # Use Gemini (free tier) in CI — default
+git-ai ci --provider anthropic     # Use Claude in CI
+git-ai ci --fail-on warning        # Block PR merge on any WARNING finding
+```
+
+Generates a GitHub Actions workflow that automatically reviews every PR and posts findings as a PR comment:
+
+```yaml
+# .github/workflows/git-ai-review.yml (auto-generated)
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm install -g @malikasadjaved/git-ai
+      - run: git-ai review --full --json --fail-on critical --gh-comment
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+```
+
+Then add your secret once:
+```bash
+gh secret set GEMINI_API_KEY --body "your-api-key-here"
+```
 
 ---
 

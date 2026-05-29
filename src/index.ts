@@ -9,6 +9,8 @@ import { reviewCommand } from './commands/review.js';
 import { changelogCommand } from './commands/changelog.js';
 import { hookCommand } from './commands/hook.js';
 import { setupCommand } from './commands/setup.js';
+import { ciCommand } from './commands/ci.js';
+import { findingsCommand } from './commands/findings.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -27,6 +29,8 @@ program.addCommand(reviewCommand);
 program.addCommand(changelogCommand);
 program.addCommand(hookCommand);
 program.addCommand(setupCommand);
+program.addCommand(ciCommand);
+program.addCommand(findingsCommand);
 
 // Shorthand: `git-ai` with no subcommand = commit
 program.action(async () => {

@@ -104,3 +104,8 @@ export async function getBranchCommits(baseBranch?: string): Promise<string[]> {
   const log = await git.log({ from: base, to: 'HEAD' });
   return log.all.map((c) => c.message);
 }
+
+export async function getHeadHash(): Promise<string> {
+  const log = await git.log({ maxCount: 1 });
+  return log.latest?.hash || 'unknown';
+}
