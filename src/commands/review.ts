@@ -56,7 +56,7 @@ export async function runReview(opts: {
 
       suppressedCount = parsed.findings.length - newFindings.length;
 
-      if (newFindings.length < parsed.findings.length) {
+      if (newFindings.length > 0) {
         const headHash = await getHeadHash().catch(() => 'unknown');
         const newRecords: FindingRecord[] = newFindings.map((f) => ({
           id: fingerprintFinding(f).slice(0, 8),
@@ -71,15 +71,17 @@ export async function runReview(opts: {
 
         await saveFindings([...existing, ...newRecords]);
 
-        parsed.findings.length = 0;
-        parsed.findings.push(...newFindings);
-        parsed.summary.critical = newFindings.filter((f) => f.severity === 'CRITICAL').length;
-        parsed.summary.warning = newFindings.filter((f) => f.severity === 'WARNING').length;
-        parsed.summary.suggestion = newFindings.filter((f) => f.severity === 'SUGGESTION').length;
-        parsed.summary.total = newFindings.length;
-        parsed.raw = newFindings.length > 0
-          ? newFindings.map((f) => `[${f.severity}] ${f.description}${f.location ? ` — ${f.location}` : ''}`).join('\n')
-          : parsed.raw;
+        if (suppressedCount > 0) {
+          parsed.findings.length = 0;
+          parsed.findings.push(...newFindings);
+          parsed.summary.critical = newFindings.filter((f) => f.severity === 'CRITICAL').length;
+          parsed.summary.warning = newFindings.filter((f) => f.severity === 'WARNING').length;
+          parsed.summary.suggestion = newFindings.filter((f) => f.severity === 'SUGGESTION').length;
+          parsed.summary.total = newFindings.length;
+          parsed.raw = newFindings.length > 0
+            ? newFindings.map((f) => `[${f.severity}] ${f.description}${f.location ? ` — ${f.location}` : ''}`).join('\n')
+            : parsed.raw;
+        }
       }
     }
 
