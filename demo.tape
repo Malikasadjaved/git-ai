@@ -1,72 +1,60 @@
-# VHS Demo Tape for git-ai
+# VHS Demo Tape for git-ai v1.2
 # Install VHS: https://github.com/charmbracelet/vhs
 # Run: vhs demo.tape
 
 Output demo.gif
+
 Set Shell powershell
-Set FontSize 16
+Set FontSize 15
 Set Width 900
-Set Height 550
-Set Theme "Catppuccin Mocha"
-Set Padding 20
-Set TypingSpeed 50ms
+Set Height 520
+Set Padding 24
+Set TypingSpeed 65ms
 
-# Title
-Type "# git-ai — AI that lives inside your Git workflow"
-Enter
-Sleep 1s
+Set Theme {
+  "name": "git-ai",
+  "black":      "#030306",
+  "red":        "#f75997",
+  "green":      "#22c55e",
+  "yellow":     "#f59e0b",
+  "blue":       "#4f8ef7",
+  "purple":     "#9b59f7",
+  "cyan":       "#2dd4bf",
+  "white":      "#eeeef8",
+  "brightBlack":  "#6e6e92",
+  "brightRed":    "#f75997",
+  "brightGreen":  "#22c55e",
+  "brightYellow": "#f59e0b",
+  "brightBlue":   "#4f8ef7",
+  "brightPurple": "#9b59f7",
+  "brightCyan":   "#2dd4bf",
+  "brightWhite":  "#eeeef8",
+  "background": "#080810",
+  "foreground": "#eeeef8",
+  "cursor":     "#22c55e",
+  "selection":  "#1a1a2e"
+}
 
-# Show help
-Type "git-ai --help"
+# --- git-ai review ---
+Type "git-ai review"
 Enter
-Sleep 2s
+Sleep 4s
 
-# Setup wizard demo
-Type "git-ai setup"
-Enter
-Sleep 1.5s
-
-# Select Claude
-Down 0
-Enter
-Sleep 1s
-
-# Enter API key
-Type "sk-ant-xxxxxxxxxxxxxxxxxxxx"
-Enter
-Sleep 1s
-
-# Select Haiku model
-Enter
-Sleep 1s
-
-# Select auto-detect style
-Enter
-Sleep 1s
-
-# Skip hooks
-Type "n"
-Enter
-Sleep 2s
-
-# Stage files
-Type "git add -A"
-Enter
-Sleep 500ms
-
-# Generate commit message
-Type "git-ai commit"
-Enter
+# Show the review output
 Sleep 3s
 
-# Show the generated message
+# --- git-ai review again (dedup) ---
+Type "git-ai review"
+Enter
+Sleep 3500ms
+
+# Show suppression message
 Sleep 2s
 
-# Commit
+# --- git-ai findings ---
+Type "git-ai findings"
 Enter
-Sleep 1.5s
+Sleep 1500ms
 
-# Done
-Type "# Done! Zero friction AI commits."
-Enter
+# --- Done ---
 Sleep 2s

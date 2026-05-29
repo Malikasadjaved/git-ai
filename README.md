@@ -15,6 +15,58 @@
 
 ---
 
+## How It Works
+
+```
+                  ┌───────────────────────────────────────────┐
+                  │              git-ai ecosystem              │
+                  └───────────────────────────────────────────┘
+
+  ┌─────────┐    ┌─────────┐    ┌──────────┐    ┌─────────────┐
+  │  commit │    │   pr    │    │  review  │    │  changelog  │
+  └────┬────┘    └────┬────┘    └────┬─────┘    └──────┬──────┘
+       │              │              │                  │
+       ▼              ▼              ▼                  ▼
+  staged diff    branch diff    staged/full diff    commits list
+       │              │              │                  │
+       └──────────────┴──────────────┴──────────────────┘
+                            │
+                            ▼
+                  ┌─────────────────┐
+                  │  prompt builder  │  ← style learner, ticket parser
+                  └────────┬────────┘
+                           │
+                           ▼
+                  ┌─────────────────┐
+                  │   AI provider   │  Claude · GPT · Gemini · Ollama
+                  └────────┬────────┘
+                           │
+                           ▼
+                  ┌─────────────────┐
+                  │  review-parser  │  parse into structured findings
+                  └────────┬────────┘
+                           │
+              ┌────────────┼────────────┐
+              ▼            ▼            ▼
+        ┌──────────┐ ┌─────────┐ ┌──────────┐
+        │ terminal │ │ --json  │ │ --gh-    │
+        │ (color)  │ │ stdout  │ │ comment  │
+        └──────────┘ └─────────┘ └──────────┘
+              │
+              ▼
+     ┌─────────────────┐     ┌──────────────────────┐
+     │ .git-ai/        │────▶│ git-ai findings       │
+     │ findings.json   │     │ list/acknowledge/clear│
+     └─────────────────┘     └──────────────────────┘
+              │
+              ▼
+     ┌─────────────────┐     ┌──────────────────────┐
+     │ fingerprint     │     │ git-ai ci --write     │
+     │ dedup on next   │     │ → GitHub Actions      │
+     │ review run      │     │ auto-review every PR  │
+     └─────────────────┘     └──────────────────────┘
+```
+
 > **What makes this different?** Unlike other AI commit tools, `git-ai` reads your last 20 commits and **learns your team's style** — format, casing, scope usage, preferred types. It doesn't impose a convention. It mirrors what you already do.
 
 ---
@@ -126,6 +178,7 @@ git-ai review --json       # Structured JSON output (CI-friendly)
 git-ai review --fail-on critical    # Exit 1 if any CRITICAL finding
 git-ai review --fail-on warning     # Exit 1 if WARNING or CRITICAL
 git-ai review --gh-comment          # Post findings as GitHub PR comment
+git-ai review --no-dedup            # Disable duplicate finding suppression
 ```
 
 Returns findings color-coded by severity (with summary count header):
@@ -138,7 +191,11 @@ Returns findings color-coded by severity (with summary count header):
   🔴 [CRITICAL]  SQL injection risk in user input at src/api/users.ts:42
   🟡 [WARNING]   Missing error handling in async function fetchData()
   🟢 [SUGGESTION]  Consider memoizing this expensive computation
+
+  (2 duplicate findings suppressed)
 ```
+
+**Deduplication:** Each finding is SHA-256 fingerprinted (`severity|location|description`). On subsequent review runs, identical findings are automatically suppressed — no more drowning in repeated warnings when you run reviews across branches or in CI.
 
 With `--json`:
 ```json
@@ -199,6 +256,28 @@ Then add your secret once:
 ```bash
 gh secret set GEMINI_API_KEY --body "your-api-key-here"
 ```
+
+---
+
+### `git-ai findings` — Manage review findings
+
+```bash
+git-ai findings                      # List all stored findings
+git-ai findings -a <id>              # Acknowledge a finding (dismiss)
+git-ai findings --clear              # Remove all stored findings
+```
+
+Every `git-ai review` run saves its findings locally in `.git-ai/findings.json`. Use `git-ai findings` to inspect, acknowledge, or clear them:
+
+```
+  Findings (6 total, 1 acknowledged)
+
+  f0b771f5  CRITICAL  SQL injection risk in user input — src/api/users.ts:42 [acknowledged]
+  31c7ed4b  WARNING   Missing error handling in async function
+  66c3c465  SUGGESTION  Consider memoizing this expensive computation
+```
+
+Acknowledged findings won't be flagged as duplicates on future runs — they count as "seen and dismissed."
 
 ---
 
