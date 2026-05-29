@@ -22,6 +22,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - SHA-256 content fingerprinting — same finding across branches/commits is automatically deduplicated
 - `.git-ai/findings.json` — per-repo persistence so review volume stays manageable even with many agent runs in flight
 
+## [1.2.2] - 2026-05-29
+
+### Changed
+
+- Updated README with ASCII flowchart showing the full `git-ai` pipeline
+- Added `git-ai findings` command documentation to README
+- Updated review section with `--no-dedup` flag and deduplication explanation
+- Regenerated demo.gif to showcase review → dedup → findings flow
+
+## [1.2.1] - 2026-05-29
+
+### Fixed
+
+- Findings now persist on the first review run, not only when duplicates are detected (`newFindings.length > 0` guard)
+
 ## [1.1.1] - 2025-01-03
 
 
